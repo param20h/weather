@@ -1,28 +1,31 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+
+
 import { motion } from 'framer-motion';
 import { Toaster, toast } from 'react-hot-toast';
-import WeatherCard from '@/components/WeatherCard';
-import ForecastCard from '@/components/ForecastCard';
-import ThemeToggle from '@/components/ThemeToggle';
-import WeatherMap from '@/components/WeatherMap';
-import GoogleMapsWeather from '@/components/GoogleMapsWeather';
-import AirQualityCard from '@/components/AirQualityCard';
-import HourlyForecast from '@/components/HourlyForecast';
-import WeatherAlerts from '@/components/WeatherAlerts';
-import FavoritesManager from '@/components/FavoritesManager';
-import SimpleParticles from '@/components/SimpleParticles';
-import SearchBar from '@/components/SearchBar';
-import Footer from '@/components/Footer';
-import NotificationManager from '@/components/NotificationManager';
-import WindCompass from '@/components/WindCompass';
-import CityComparison from '@/components/CityComparison';
-import AnimatedBackground from '@/components/AnimatedBackground';
-import LoadingScreen from '@/components/LoadingScreen';
+import dynamic from 'next/dynamic';
 import { WeatherResponse } from '@/types/weather';
 import { getWeatherBackground } from '@/lib/weather';
 import { useWeatherStore } from '@/store/weatherStore';
+
+const WeatherCard = dynamic(() => import('@/components/WeatherCard'), { ssr: false });
+const ForecastCard = dynamic(() => import('@/components/ForecastCard'), { ssr: false });
+const ThemeToggle = dynamic(() => import('@/components/ThemeToggle'), { ssr: false });
+const WeatherMap = dynamic(() => import('@/components/WeatherMap'), { ssr: false });
+const GoogleMapsWeather = dynamic(() => import('@/components/GoogleMapsWeather'), { ssr: false });
+const AirQualityCard = dynamic(() => import('@/components/AirQualityCard'), { ssr: false });
+const HourlyForecast = dynamic(() => import('@/components/HourlyForecast'), { ssr: false });
+const WeatherAlerts = dynamic(() => import('@/components/WeatherAlerts'), { ssr: false });
+const FavoritesManager = dynamic(() => import('@/components/FavoritesManager'), { ssr: false });
+const SearchBar = dynamic(() => import('@/components/SearchBar'), { ssr: false });
+const Footer = dynamic(() => import('@/components/Footer'), { ssr: false });
+const NotificationManager = dynamic(() => import('@/components/NotificationManager'), { ssr: false });
+const WindCompass = dynamic(() => import('@/components/WindCompass'), { ssr: false });
+const CityComparison = dynamic(() => import('@/components/CityComparison'), { ssr: false });
+const AnimatedBackground = dynamic(() => import('@/components/AnimatedBackground'), { ssr: false });
+const LoadingScreen = dynamic(() => import('@/components/LoadingScreen'), { ssr: false });
 
 export default function Home() {
   const {
@@ -44,6 +47,11 @@ export default function Home() {
   } = useWeatherStore();
   
   const [coords, setCoords] = useState<{lat: number, lon: number} | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const fetchWeatherData = async (lat: number, lon: number) => {
     setLoading(true);
@@ -91,9 +99,11 @@ export default function Home() {
   };
 
   useEffect(() => {
+    if (!mounted) return;
+    
     if (selectedLocation) {
       fetchWeatherData(selectedLocation.lat, selectedLocation.lon);
-    } else if (typeof window !== 'undefined' && navigator.geolocation) {
+    } else if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
@@ -108,7 +118,7 @@ export default function Home() {
       setError('Geolocation not supported');
       setLoading(false);
     }
-  }, [selectedLocation]);
+  }, [selectedLocation, mounted]);
 
   const backgroundGradient = currentWeather 
     ? getWeatherBackground(currentWeather.condition)
