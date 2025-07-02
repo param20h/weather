@@ -52,14 +52,15 @@ export default function CityComparison() {
     setCities(prev => prev.filter((_, i) => i !== index));
   };
 
-  useEffect(() => {
-    // Add some default cities
-    if (cities.length === 0) {
-      addCity('New York');
-      addCity('London');
-      addCity('Tokyo');
+  const [searchInput, setSearchInput] = useState('');
+
+  const handleAddCity = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchInput.trim()) {
+      addCity(searchInput.trim());
+      setSearchInput('');
     }
-  }, []);
+  };
 
   return (
     <>
@@ -86,6 +87,24 @@ export default function CityComparison() {
                 <XMarkIcon className="w-6 h-6 text-white" />
               </button>
             </div>
+
+            <form onSubmit={handleAddCity} className="mb-6">
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
+                  placeholder="Enter city name..."
+                  className="flex-1 px-4 py-2 bg-slate-800/60 border border-slate-600/50 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-blue-500"
+                />
+                <button
+                  type="submit"
+                  className="px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded-xl text-white font-medium transition-colors"
+                >
+                  Add City
+                </button>
+              </div>
+            </form>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {cities.map((city, index) => (

@@ -54,16 +54,18 @@ export default function NotificationManager() {
   if (permission === 'granted') return null;
 
   return (
-    <div className="fixed top-6 right-20 group">
+    <div className="fixed top-6 right-20 group z-50">
       <button
         onClick={requestPermission}
-        className="p-3 backdrop-blur-xl bg-slate-900/80 rounded-full border border-slate-700/50 shadow-lg hover:scale-105 hover:bg-slate-800/90 transition-all duration-200 relative"
+        className="p-3 backdrop-blur-xl bg-slate-900/80 rounded-full border border-slate-700/50 shadow-lg hover:scale-105 hover:bg-slate-800/90 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-transparent transition-all duration-200 relative cursor-pointer"
         title="Enable weather notifications"
+        aria-label="Enable weather notifications"
+        tabIndex={0}
       >
-        <BellIcon className="w-6 h-6 text-white group-hover:text-blue-400 transition-colors" />
+        <BellIcon className="w-6 h-6 text-white group-hover:text-blue-400 group-focus:text-blue-400 transition-colors" />
         <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse" />
       </button>
-      <div className="absolute top-full mt-2 right-0 bg-slate-800/95 backdrop-blur-sm text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+      <div className="absolute top-full mt-2 right-0 bg-slate-800/95 backdrop-blur-sm text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
         Enable notifications
       </div>
     </div>
