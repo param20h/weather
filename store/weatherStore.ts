@@ -31,13 +31,30 @@ interface WeatherStore {
   setError: (error: string | null) => void;
 }
 
-export const useWeatherStore = create<WeatherStore>((set) => ({
+const loadFavorites = (): Location[] => {
+  if (typeof window === 'undefined') return [];
+  try {
+    const saved = localStorage.getItem('weather-favorites');
+    return saved ? JSON.parse(saved) : [];
+  } catch {
+    return [];
+  }
+};
+
+const saveFavorites = (favorites: Location[]) => {
+  if (typeof window === 'undefined') return;
+  try {
+    localStorage.setItem('weather-favorites', JSON.stringify(favorites));
+  } catch {}
+};
+
+export const useWeatherStore = create<WeatherStore>((set, get) => ({
   currentWeather: null,
   forecast: [],
   hourlyForecast: [],
   airQuality: null,
   alerts: [],
-  favorites: [],
+  favorites: loadFavorites(),
   selectedLocation: null,
   isLoading: false,
   error: null,
@@ -47,12 +64,16 @@ export const useWeatherStore = create<WeatherStore>((set) => ({
   setHourlyForecast: (hourlyForecast) => set({ hourlyForecast }),
   setAirQuality: (airQuality) => set({ airQuality }),
   setAlerts: (alerts) => set({ alerts }),
-  addFavorite: (location) => set((state) => ({ 
-    favorites: [...state.favorites, location] 
-  })),
-  removeFavorite: (id) => set((state) => ({ 
-    favorites: state.favorites.filter(fav => fav.id !== id) 
-  })),
+  addFavorite: (location) => set((state) => {
+    const newFavorites = [...state.favorites, location];
+    saveFavorites(newFavorites);
+    return { favorites: newFavorites };
+  }),
+  removeFavorite: (id) => set((state) => {
+    const newFavorites = state.favorites.filter(fav => fav.id !== id);
+    saveFavorites(newFavorites);
+    return { favorites: newFavorites };
+  }),
   setSelectedLocation: (location) => set({ selectedLocation: location }),
   setLoading: (loading) => set({ isLoading: loading }),
   setError: (error) => set({ error }),

@@ -15,7 +15,15 @@ interface CityWeather {
 }
 
 export default function CityComparison() {
-  const [cities, setCities] = useState<CityWeather[]>([]);
+  const [cities, setCities] = useState<CityWeather[]>(() => {
+    if (typeof window === 'undefined') return [];
+    try {
+      const saved = localStorage.getItem('weather-cities');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
   const [isOpen, setIsOpen] = useState(false);
 
   const addCity = async (cityName: string) => {
@@ -41,7 +49,11 @@ export default function CityComparison() {
           windSpeed: Math.round(weatherData.wind.speed * 3.6)
         };
         
-        setCities(prev => [...prev, newCity]);
+        setCities(prev => {
+          const newCities = [...prev, newCity];
+          localStorage.setItem('weather-cities', JSON.stringify(newCities));
+          return newCities;
+        });
       }
     } catch (error) {
       console.error('Failed to add city:', error);
@@ -49,7 +61,11 @@ export default function CityComparison() {
   };
 
   const removeCity = (index: number) => {
-    setCities(prev => prev.filter((_, i) => i !== index));
+    setCities(prev => {
+      const newCities = prev.filter((_, i) => i !== index);
+      localStorage.setItem('weather-cities', JSON.stringify(newCities));
+      return newCities;
+    });
   };
 
   const [searchInput, setSearchInput] = useState('');
