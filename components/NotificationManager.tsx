@@ -54,11 +54,18 @@ export default function NotificationManager() {
   if (permission === 'granted') return null;
 
   return (
-    <button
-      onClick={requestPermission}
-      className="fixed top-6 right-20 p-3 backdrop-blur-xl bg-slate-900/80 rounded-full border border-slate-700/50 shadow-lg hover:scale-105 transition-all"
-    >
-      <BellIcon className="w-6 h-6 text-white" />
-    </button>
+    <div className="fixed top-6 right-20 group">
+      <button
+        onClick={requestPermission}
+        className="p-3 backdrop-blur-xl bg-slate-900/80 rounded-full border border-slate-700/50 shadow-lg hover:scale-105 hover:bg-slate-800/90 transition-all duration-200 relative"
+        title="Enable weather notifications"
+      >
+        <BellIcon className="w-6 h-6 text-white group-hover:text-blue-400 transition-colors" />
+        <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse" />
+      </button>
+      <div className="absolute top-full mt-2 right-0 bg-slate-800/95 backdrop-blur-sm text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+        Enable notifications
+      </div>
+    </div>
   );
 }

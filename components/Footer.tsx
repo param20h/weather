@@ -12,7 +12,16 @@ export default function Footer() {
     >
       <div className="backdrop-blur-xl bg-slate-900/80 rounded-2xl px-4 py-2 border border-slate-700/50 shadow-lg">
         <p className="text-slate-300 text-sm font-medium">
-          Made by <span className="text-white font-bold">param20h</span> with ❤️ & AI
+          Made by{' '}
+          <a 
+            href="https://param20h.me" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-white font-bold hover:text-blue-400 transition-colors duration-200"
+          >
+            param20h
+          </a>{' '}
+          with ❤️ & AI
         </p>
       </div>
     </motion.footer>
