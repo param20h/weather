@@ -26,6 +26,7 @@ const WindCompass = dynamic(() => import('@/components/WindCompass'), { ssr: fal
 const CityComparison = dynamic(() => import('@/components/CityComparison'), { ssr: false });
 const AnimatedBackground = dynamic(() => import('@/components/AnimatedBackground'), { ssr: false });
 const LoadingScreen = dynamic(() => import('@/components/LoadingScreen'), { ssr: false });
+const LocalClock = dynamic(() => import('@/components/LocalClock'), { ssr: false });
 
 export default function Home() {
   const {
@@ -183,9 +184,18 @@ export default function Home() {
                 <HourlyForecast data={hourlyForecast} />
               </div>
             )}
-            {currentWeather && (
-              <WindCompass windSpeed={currentWeather.windSpeed} windDirection={270} />
-            )}
+            <div className="space-y-4">
+              {currentWeather && (
+                <WindCompass windSpeed={currentWeather.windSpeed} windDirection={270} />
+              )}
+              {coords && currentWeather && (
+                <LocalClock 
+                  lat={coords.lat} 
+                  lon={coords.lon} 
+                  locationName={currentWeather.location}
+                />
+              )}
+            </div>
           </div>
           
 
