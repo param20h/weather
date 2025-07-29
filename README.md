@@ -51,7 +51,7 @@ npm run dev
 ### 🔑 API Key Setup
 1. Get free API key from [OpenWeatherMap](https://openweathermap.org/api)
 2. Add to `.env.local`: `NEXT_PUBLIC_OPENWEATHER_API_KEY=your_key`
-3. Restart development server
+3. Restart development server   
 
 ### 📦 Production Deployment
 ```bash
