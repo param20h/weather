@@ -141,12 +141,13 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 dark:from-black dark:via-slate-900 dark:to-black transition-all duration-1000 relative overflow-hidden">
-      {/* Animated background effects */}
+    <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 dark:from-slate-100 dark:via-blue-50 dark:to-indigo-50 transition-all duration-1000 relative overflow-hidden">
+      {/* Enhanced animated background effects */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute top-3/4 right-1/4 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}} />
-        <div className="absolute bottom-1/4 left-1/3 w-72 h-72 bg-cyan-500/5 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}} />
+        <div className="absolute top-1/4 left-1/4 w-[32rem] h-[32rem] bg-gradient-to-br from-blue-500/10 via-cyan-500/10 to-transparent dark:from-blue-400/20 dark:via-cyan-400/15 dark:to-transparent rounded-full blur-3xl animate-float" />
+        <div className="absolute top-3/4 right-1/4 w-[28rem] h-[28rem] bg-gradient-to-br from-purple-500/10 via-pink-500/10 to-transparent dark:from-purple-400/20 dark:via-pink-400/15 dark:to-transparent rounded-full blur-3xl animate-float" style={{animationDelay: '2s'}} />
+        <div className="absolute bottom-1/4 left-1/3 w-[24rem] h-[24rem] bg-gradient-to-br from-emerald-500/10 via-teal-500/10 to-transparent dark:from-emerald-400/20 dark:via-teal-400/15 dark:to-transparent rounded-full blur-3xl animate-float" style={{animationDelay: '4s'}} />
+        <div className="absolute top-1/2 right-1/3 w-[20rem] h-[20rem] bg-gradient-to-br from-amber-500/10 via-orange-500/10 to-transparent dark:from-amber-400/20 dark:via-orange-400/15 dark:to-transparent rounded-full blur-3xl animate-float" style={{animationDelay: '6s'}} />
       </div>
       {currentWeather && <AnimatedBackground condition={currentWeather.condition} />}
       <SearchBar onLocationSelect={(lat, lon) => fetchWeatherData(lat, lon)} />

@@ -58,10 +58,11 @@ export default function SearchBar({ onLocationSelect }: SearchBarProps) {
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="backdrop-blur-xl bg-slate-900/90 rounded-2xl border-2 border-slate-700/50 shadow-2xl"
+          whileHover={{ scale: 1.02 }}
+          className="backdrop-blur-2xl bg-gradient-to-br from-slate-900/95 via-slate-800/95 to-slate-900/95 dark:from-white/95 dark:via-white/90 dark:to-white/95 rounded-2xl border border-slate-700/50 dark:border-slate-300/50 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.1)] hover:shadow-[0_8px_48px_0_rgba(59,130,246,0.2)] dark:hover:shadow-[0_8px_48px_0_rgba(59,130,246,0.15)] transition-all duration-300"
         >
           <div className="relative">
-            <MagnifyingGlassIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
+            <MagnifyingGlassIcon className="absolute left-5 top-1/2 transform -translate-y-1/2 w-6 h-6 text-blue-400 dark:text-blue-600" />
             <input
               type="text"
               placeholder="Search locations..."
@@ -72,7 +73,7 @@ export default function SearchBar({ onLocationSelect }: SearchBarProps) {
                 setIsOpen(true);
               }}
               onFocus={() => setIsOpen(true)}
-              className="w-full pl-12 pr-4 py-4 bg-transparent text-white placeholder-slate-400 focus:outline-none font-medium"
+              className="w-full pl-14 pr-5 py-5 bg-transparent text-white dark:text-slate-900 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none font-semibold text-lg tracking-wide"
             />
           </div>
         </motion.div>
@@ -80,22 +81,23 @@ export default function SearchBar({ onLocationSelect }: SearchBarProps) {
         <AnimatePresence>
           {isOpen && results.length > 0 && (
             <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              className="absolute top-full mt-2 w-full backdrop-blur-xl bg-slate-900/90 rounded-2xl border-2 border-slate-700/50 shadow-2xl overflow-hidden"
+              initial={{ opacity: 0, y: -10, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -10, scale: 0.95 }}
+              className="absolute top-full mt-3 w-full backdrop-blur-2xl bg-gradient-to-br from-slate-900/95 via-slate-800/95 to-slate-900/95 dark:from-white/95 dark:via-white/90 dark:to-white/95 rounded-2xl border border-slate-700/50 dark:border-slate-300/50 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.1)] overflow-hidden"
             >
               {results.map((location, index) => (
                 <motion.button
                   key={location.id}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.05 }}
+                  transition={{ delay: index * 0.05, type: "spring" }}
+                  whileHover={{ scale: 1.02, x: 4 }}
                   onClick={() => handleSelect(location)}
-                  className="w-full flex items-center space-x-3 px-4 py-3 text-left hover:bg-slate-800/60 transition-colors border-b border-slate-700/30 last:border-b-0"
+                  className="w-full flex items-center space-x-4 px-5 py-4 text-left hover:bg-gradient-to-r hover:from-blue-500/20 hover:to-cyan-500/20 dark:hover:from-blue-400/20 dark:hover:to-cyan-400/20 transition-all duration-300 border-b border-slate-700/30 dark:border-slate-300/30 last:border-b-0 group"
                 >
-                  <MapPinIcon className="w-4 h-4 text-slate-400 flex-shrink-0" />
-                  <span className="text-white font-medium">{location.name}</span>
+                  <MapPinIcon className="w-5 h-5 text-blue-400 dark:text-blue-600 flex-shrink-0 group-hover:scale-110 transition-transform duration-300" />
+                  <span className="text-white dark:text-slate-900 font-semibold tracking-wide group-hover:text-blue-300 dark:group-hover:text-blue-700 transition-colors">{location.name}</span>
                 </motion.button>
               ))}
             </motion.div>

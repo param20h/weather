@@ -31,12 +31,12 @@ export default function ThemeToggle() {
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       onClick={toggleTheme}
-      className="fixed top-6 right-6 p-3 backdrop-blur-md bg-white/20 dark:bg-black/20 rounded-full border border-white/30 shadow-lg"
+      className="fixed top-6 right-6 p-3 backdrop-blur-md bg-white/20 dark:bg-white/90 rounded-full border border-white/30 dark:border-slate-300 shadow-lg z-50"
     >
       {isDark ? (
         <SunIcon className="w-6 h-6 text-yellow-300" />
       ) : (
-        <MoonIcon className="w-6 h-6 text-white" />
+        <MoonIcon className="w-6 h-6 text-white dark:text-slate-700" />
       )}
     </motion.button>
   );

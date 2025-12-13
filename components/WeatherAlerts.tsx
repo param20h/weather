@@ -44,28 +44,37 @@ export default function WeatherAlerts({ alerts }: WeatherAlertsProps) {
         {visibleAlerts.map((alert) => (
           <motion.div
             key={alert.id}
-            initial={{ opacity: 0, height: 0, y: -20 }}
-            animate={{ opacity: 1, height: 'auto', y: 0 }}
-            exit={{ opacity: 0, height: 0, y: -20 }}
-            className={`backdrop-blur-md rounded-2xl p-4 border ${getSeverityColor(alert.severity)}`}
+            initial={{ opacity: 0, height: 0, y: -20, scale: 0.95 }}
+            animate={{ opacity: 1, height: 'auto', y: 0, scale: 1 }}
+            exit={{ opacity: 0, height: 0, y: -20, scale: 0.95 }}
+            whileHover={{ scale: 1.01, y: -2 }}
+            transition={{ type: "spring", stiffness: 200 }}
+            className={`backdrop-blur-2xl rounded-2xl p-5 border-2 ${getSeverityColor(alert.severity)} shadow-[0_4px_24px_0_rgba(0,0,0,0.3)] hover:shadow-[0_4px_32px_0_rgba(0,0,0,0.4)] transition-all duration-300`}
           >
             <div className="flex items-start justify-between">
-              <div className="flex items-start space-x-3">
-                <ExclamationTriangleIcon className="w-5 h-5 mt-0.5 flex-shrink-0" />
+              <div className="flex items-start space-x-4">
+                <motion.div
+                  animate={{ scale: [1, 1.1, 1] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  <ExclamationTriangleIcon className="w-6 h-6 mt-0.5 flex-shrink-0 drop-shadow-lg" />
+                </motion.div>
                 <div>
-                  <h4 className="font-medium mb-1">{alert.title}</h4>
-                  <p className="text-sm opacity-80 leading-relaxed">{alert.description}</p>
-                  <div className="text-xs opacity-60 mt-2">
+                  <h4 className="font-bold text-lg mb-2">{alert.title}</h4>
+                  <p className="text-sm opacity-90 leading-relaxed font-medium">{alert.description}</p>
+                  <div className="text-xs opacity-70 mt-3 font-semibold">
                     {new Date(alert.start * 1000).toLocaleDateString()} - {new Date(alert.end * 1000).toLocaleDateString()}
                   </div>
                 </div>
               </div>
-              <button
+              <motion.button
                 onClick={() => dismissAlert(alert.id)}
-                className="p-1 hover:bg-white/10 rounded-full transition-colors"
+                whileHover={{ scale: 1.1, rotate: 90 }}
+                whileTap={{ scale: 0.9 }}
+                className="p-1.5 hover:bg-white/20 rounded-full transition-colors"
               >
-                <XMarkIcon className="w-4 h-4" />
-              </button>
+                <XMarkIcon className="w-5 h-5" />
+              </motion.button>
             </div>
           </motion.div>
         ))}

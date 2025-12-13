@@ -70,6 +70,10 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ current, forecast, hourly });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch weather data' }, { status: 500 });
+    console.error('Weather API error:', error);
+    return NextResponse.json({ 
+      error: 'Failed to fetch weather data',
+      details: error instanceof Error ? error.message : 'Unknown error'
+    }, { status: 500 });
   }
 }

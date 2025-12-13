@@ -5,6 +5,9 @@ export async function getCurrentWeather(lat: number, lon: number) {
   const response = await fetch(
     `${BASE_URL}/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
   );
+  if (!response.ok) {
+    throw new Error(`Weather API error: ${response.statusText}`);
+  }
   return response.json();
 }
 
@@ -12,6 +15,9 @@ export async function getForecast(lat: number, lon: number) {
   const response = await fetch(
     `${BASE_URL}/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
   );
+  if (!response.ok) {
+    throw new Error(`Forecast API error: ${response.statusText}`);
+  }
   return response.json();
 }
 

@@ -14,6 +14,10 @@ export async function GET(request: NextRequest) {
       `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY}`
     );
     
+    if (!response.ok) {
+      throw new Error(`Air quality API error: ${response.statusText}`);
+    }
+    
     const data = await response.json();
     
     const airQuality = {
@@ -27,6 +31,10 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(airQuality);
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch air quality data' }, { status: 500 });
+    console.error('Air quality API error:', error);
+    return NextResponse.json({ 
+      error: 'Failed to fetch air quality data',
+      details: error instanceof Error ? error.message : 'Unknown error'
+    }, { status: 500 });
   }
 }
